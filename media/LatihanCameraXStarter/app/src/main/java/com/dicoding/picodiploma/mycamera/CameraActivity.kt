@@ -52,32 +52,30 @@ class CameraActivity : AppCompatActivity() {
         val photoFile = createFile(application) // menyediakan file ygakan digunakan untuk menampung hasil gambar dari kamera
 
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build() // menjelaskan secara detail bagaimana output atau hasil dari kamera nantinya
-            imageCapture.takePicture(
-                outputOptions,
-                ContextCompat.getMainExecutor(this),
-                object : ImageCapture.OnImageSavedCallback {
-                    override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                        val intent = Intent()
-                        intent.putExtra("picture", photoFile)
-                        intent.putExtra(
-                            "isBackCamera",
-                            cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA
-                        )
-                        setResult(MainActivity.CAMERA_X_RESULT, intent)
-                        finish()
-                    }
-
-                    override fun onError(exception: ImageCaptureException) {
-                        Toast.makeText(
-                            this@CameraActivity,
-                            "Gagal mengambil gambar.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
+        imageCapture.takePicture(
+            outputOptions,
+            ContextCompat.getMainExecutor(this),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    val intent = Intent()
+                    intent.putExtra("picture", photoFile)
+                    intent.putExtra(
+                        "isBackCamera",
+                        cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA
+                    )
+                    setResult(MainActivity.CAMERA_X_RESULT, intent)
+                    finish()
                 }
 
-            )
+                override fun onError(exception: ImageCaptureException) {
+                    Toast.makeText(
+                        this@CameraActivity,
+                        "Gagal mengambil gambar.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        )
     }
 
 
