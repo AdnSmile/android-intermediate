@@ -15,17 +15,20 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.dicoding.picodiploma.mycamera.databinding.ActivityMainBinding
+import retrofit2.Callback
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Call
+import retrofit2.Response
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var currentPhotoPath: String
-
-    companion object {
-        const val CAMERA_X_RESULT = 200
-        private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
-        private const val REQUEST_CODE_PERMISSIONS = 10
-    }
+    private var getFile: File? = null
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -70,7 +73,46 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun uploadImage() {
-        Toast.makeText(this, "Fitur ini belum tersedia", Toast.LENGTH_SHORT).show()
+
+        if (getFile != null) {
+            val file = getFile as File
+
+            val description = "Ini adalah deskripsi gambar".toRequestBody("text/plain".toMediaType())
+            val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "photo",
+                file.name,
+                requestImageFile
+            )
+
+            val service = ApiConfig().getApiService().uploadImage(imageMultipart, description)
+            service.enqueue(object : Callback<FileUploadResponse> {
+                override fun onResponse(
+                    call: Call<FileUploadResponse>,
+                    response: Response<FileUploadResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null && !responseBody.error) {
+                            Toast.makeText(this@MainActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this@MainActivity, response.message(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "Gagal instance Retrofit", Toast.LENGTH_SHORT).show()
+                }
+
+            })
+        } else {
+            Toast.makeText(
+                this@MainActivity,
+                "Silakan masukkan berkas gambar terlebih dahulu.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun startGallery() {
@@ -114,8 +156,10 @@ class MainActivity : AppCompatActivity() {
             } as File
 
             val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
+
+            getFile = myFile
             val result = rotateBitmap(
-                BitmapFactory.decodeFile(myFile.path),
+                BitmapFactory.decodeFile(getFile?.path),
                 isBackCamera
             )
             binding.previewImageView.setImageBitmap(result)
@@ -128,6 +172,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         if (it.resultCode == RESULT_OK) {
             val myFile = File(currentPhotoPath)
+            getFile = myFile
             val result = BitmapFactory.decodeFile(myFile.path)
             binding.previewImageView.setImageBitmap(result)
         }
@@ -139,7 +184,15 @@ class MainActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val selectedImg: Uri = result.data?.data as Uri
             val myFile = uriToFile(selectedImg, this@MainActivity)
+            getFile = myFile
+
             binding.previewImageView.setImageURI(selectedImg)
         }
+    }
+
+    companion object {
+        const val CAMERA_X_RESULT = 200
+        private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
+        private const val REQUEST_CODE_PERMISSIONS = 10
     }
 }
