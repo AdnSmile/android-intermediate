@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     private fun uploadImage() {
 
         if (getFile != null) {
-            val file = getFile as File
+            val file = reduceFileImage(getFile as File)
 
             val description = "Ini adalah deskripsi gambar".toRequestBody("text/plain".toMediaType())
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
@@ -164,6 +164,10 @@ class MainActivity : AppCompatActivity() {
             )
             binding.previewImageView.setImageBitmap(result)
         }
+    }
+
+    private fun reduceFileImage(file: File): File {
+        return file
     }
 
     // menampung hasil dari intent atau IntentResult
