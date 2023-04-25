@@ -3,16 +3,11 @@ package com.dicoding.newsapp.ui.detail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.dicoding.newsapp.data.NewsRepository
-import org.junit.Assert
-import com.dicoding.newsapp.data.Result
 import com.dicoding.newsapp.utils.DataDummy
 import com.dicoding.newsapp.utils.MainDispatcherRule
 import com.dicoding.newsapp.utils.getOrAwaitValue
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.*
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
