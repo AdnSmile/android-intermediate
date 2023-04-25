@@ -149,12 +149,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
     private fun createLocationRequest() {
+
+        // mengatur konfigurasi saat request lokasi
         locationRequest = LocationRequest.create().apply {
             interval = TimeUnit.SECONDS.toMillis(1)
             maxWaitTime = TimeUnit.SECONDS.toMillis(1)
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
 
+
+        // untuk memeriksa apakah kondisi tersebut sudah terpenuhi atau tidak
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(locationRequest)
             val client = LocationServices.getSettingsClient(this)
@@ -186,6 +190,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun createLocationCallback() {
         locationCallback = object : LocationCallback() {
+
+            // merupakan callback yang dipanggil ketika aplikasi bisa mendapatkan data lokasi
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
                     Log.d(TAG, "onLocationResult: ${location.latitude}, ${location.longitude}")
@@ -202,6 +208,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     )
 
                     // set boundaries
+                    // Untuk membuat semua titik terlihat
                     boundsBuilder.include(lastLatLng)
                     val bounds: LatLngBounds = boundsBuilder.build()
                     mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 64))
