@@ -43,6 +43,7 @@ android {
     testOptions {
         animationsDisabled = true
     }
+    namespace 'com.dicoding.newsapp'
 }
 
 dependencies {
