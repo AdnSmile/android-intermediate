@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ad8fa92-32a9-4c7e-a0c4-8c4ee8691758" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/dicoding/newsapp/ui/list/HomeActivityTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-    </list>
+    <list default="true" id="6ad8fa92-32a9-4c7e-a0c4-8c4ee8691758" name="Changes" comment="Latihan End-to-End Testing dengan Espresso" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -242,6 +238,14 @@
       <option name="presentableId" value="Default" />
       <updated>1682488846535</updated>
     </task>
+    <task id="LOCAL-00001" summary="Latihan End-to-End Testing dengan Espresso">
+      <created>1682490440955</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1682490440955</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -254,5 +258,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Latihan End-to-End Testing dengan Espresso" />
+    <option name="LAST_COMMIT_MESSAGE" value="Latihan End-to-End Testing dengan Espresso" />
   </component>
 </project>
