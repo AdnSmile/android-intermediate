@@ -1,6 +1,7 @@
 package com.dicoding.mystudentdata.database
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -9,7 +10,14 @@ import com.dicoding.mystudentdata.helper.InitialDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Student::class, University::class, Course::class, CourseStudentCrossRef::class], version = 1, exportSchema = false)
+@Database(
+    entities = [Student::class, University::class, Course::class, CourseStudentCrossRef::class],
+    version = 2,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2),
+    ],
+    exportSchema = true
+)
 abstract class StudentDatabase : RoomDatabase() {
 
     abstract fun studentDao(): StudentDao
