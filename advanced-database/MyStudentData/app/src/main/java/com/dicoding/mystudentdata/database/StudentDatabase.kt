@@ -25,20 +25,21 @@ abstract class StudentDatabase : RoomDatabase() {
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
                             StudentDatabase::class.java, "student_database")
                         .fallbackToDestructiveMigration()
-                        .addCallback(object : Callback(){
-                            override fun onCreate(db: SupportSQLiteDatabase) {
-                                super.onCreate(db)
-                                INSTANCE?.let { database ->
-                                    applicationScope.launch {
-                                        val studentDao = database.studentDao()
-                                        studentDao.insertStudent(InitialDataSource.getStudents())
-                                        studentDao.insertUniversity(InitialDataSource.getUniversities())
-                                        studentDao.insertCourse(InitialDataSource.getCourses())
-                                        studentDao.insertCourseStudentCrossRef(InitialDataSource.getCourseStudentRelation())
-                                    }
-                                }
-                            }
-                        })
+                        .createFromAsset("com_dicoding_mystudent.db")
+//                        .addCallback(object : Callback(){
+//                            override fun onCreate(db: SupportSQLiteDatabase) {
+//                                super.onCreate(db)
+//                                INSTANCE?.let { database ->
+//                                    applicationScope.launch {
+//                                        val studentDao = database.studentDao()
+//                                        studentDao.insertStudent(InitialDataSource.getStudents())
+//                                        studentDao.insertUniversity(InitialDataSource.getUniversities())
+//                                        studentDao.insertCourse(InitialDataSource.getCourses())
+//                                        studentDao.insertCourseStudentCrossRef(InitialDataSource.getCourseStudentRelation())
+//                                    }
+//                                }
+//                            }
+//                        })
                         .build()
                 }
             }
