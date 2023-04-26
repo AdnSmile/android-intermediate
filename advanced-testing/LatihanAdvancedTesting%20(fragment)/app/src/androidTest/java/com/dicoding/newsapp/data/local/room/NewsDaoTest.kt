@@ -21,7 +21,8 @@ class NewsDaoTest{
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var database: NewsDatabase
-    private lateinit var dao : NewsDao
+    private lateinit var dao: NewsDao
+
     private val sampleNews = DataDummy.generateDummyNewsEntity()[0]
 
     @Before
@@ -52,4 +53,5 @@ class NewsDaoTest{
         Assert.assertTrue(actualNews.isEmpty())
         Assert.assertFalse(dao.isNewsBookmarked(sampleNews.title).getOrAwaitValue())
     }
+
 }
